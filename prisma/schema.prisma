@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  editor
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(admin)
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id              Int      @id @default(autoincrement())
+  name            String
+  category        String
+  price           Float    @default(0)
+  image           String[]
+  isNewArrival    Boolean  @default(false)
+  description     String
+  longDescription String?
+  fabric          String
+  colors          String[]
+  tags            String[]
+  style           String?
+  createdBy       User     @relation(fields: [authorId], references: [id])
+  authorId        Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+model Inquiry {
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String?
+  phone           String
+  message         String
+  type            String   // 'contact', 'product', 'customize'
+  productCategory String?  // 'suiting', 'shirting', 'wedding', 'general'
+  productName     String?
+  createdAt       DateTime @default(now())
+}
+
+model Job {
+  id           Int      @id @default(autoincrement())
+  title        String
+  category     String   // e.g. 'Production', 'Retail', 'Design'
+  description  String
+  requirements String
+  package      String   // Compensation/Salary
+  location     String
+  type         String   // 'Full-time', 'Part-time'
+  status       String   @default("Open") // 'Open', 'Closed'
+  applications JobApplication[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model JobApplication {
+  id        Int      @id @default(autoincrement())
+  jobId     Int
+  job       Job      @relation(fields: [jobId], references: [id])
+  name      String
+  email     String
+  phone     String
+  resumeUrl String   // Path to uploaded resume
+  message   String?
+  status    String   @default("Pending") // 'Pending', 'Reviewed', 'Rejected', 'Hired'
+  createdAt DateTime @default(now())
+}
