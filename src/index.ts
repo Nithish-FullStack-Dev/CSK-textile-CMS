@@ -22,9 +22,13 @@ connectDB();
 // Middlewares
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:8080",
+    origin: [
+      "http://localhost:8080",
+      "https://csk-textiles-yq5o.vercel.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   }),
 );
 app.use(express.json());
