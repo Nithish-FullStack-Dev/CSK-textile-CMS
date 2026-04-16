@@ -37,22 +37,29 @@ export const getJobsAdmin = async (req: Request, res: Response) => {
 // @access  Public
 export const getJobById = async (req: Request, res: Response) => {
   try {
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid Job ID" });
+    }
+
     const job = await prisma.job.findUnique({
-      where: { id: parseInt(req.params.id) },
+      where: { id },
       include: {
         applications: {
-            orderBy: { createdAt: 'desc' }
-        }
-      }
+          orderBy: { createdAt: "desc" },
+        },
+      },
     });
+
     if (job) {
       res.json(job);
     } else {
-      res.status(404).json({ message: 'Job not found' });
+      res.status(404).json({ message: "Job not found" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -151,14 +158,21 @@ export const applyToJob = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const getApplications = async (req: Request, res: Response) => {
   try {
+    const jobId = Number(req.params.id);
+
+    if (isNaN(jobId)) {
+      return res.status(400).json({ message: "Invalid Job ID" });
+    }
+
     const applications = await prisma.jobApplication.findMany({
-      where: { jobId: parseInt(req.params.id) },
-      orderBy: { createdAt: 'desc' }
+      where: { jobId },
+      orderBy: { createdAt: "desc" },
     });
+
     res.json(applications);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
