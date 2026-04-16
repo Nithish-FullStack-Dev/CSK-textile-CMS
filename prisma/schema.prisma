@@ -91,45 +91,18 @@ enum OutfitType {
   Wedding_outfit
 }
 
-enum ShirtVariation {
-  Shirt_Full_Hands
-  Shirt_Half_Hands
-  Mandarin_Full_Hands
-  Mandarin_Half_Hands
-}
-
-enum FabricPattern {
-  solid
-  stripe
-  check
-  grid
-  linen
-  jacquard
-  velvet
-  brocade
-  dobby
-  herringbone
-  dot
-  birdseye
-  houndstooth
-  matte
-  print
-  sheen
-}
-
 model CustomizeMaterial {
-  id           Int            @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   // customId     String         @unique
-  outfit       OutfitType
-  name         String
-  family       String
-  subLabel     String
-  defaultColor String
-  colors       String[]
-  pattern      FabricPattern?
-  premium      Boolean        @default(false)
-  lightweight  Boolean        @default(false)
+  outfit   String
+  name     String
+  family   String
+  subLabel String
+
+  pattern      String?
+  premium      Boolean? @default(false)
+  lightweight  Boolean? @default(false)
   textureImage String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
