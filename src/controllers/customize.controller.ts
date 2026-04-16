@@ -1,5 +1,4 @@
-import prisma from "@/config/db.js";
-import { OutfitType } from "@prisma/client";
+import prisma from "../config/db.js";
 import type { Request, Response } from "express";
 
 export const createCustomizeMaterial = async (req: Request, res: Response) => {
