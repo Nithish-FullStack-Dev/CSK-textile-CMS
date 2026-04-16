@@ -8,6 +8,7 @@ import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+import customizeRoutes from "./routes/customize.route.js";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import path from "path";
 
@@ -22,10 +23,7 @@ connectDB();
 // Middlewares
 app.use(
   cors({
-    origin: [
-      "http://localhost:8080",
-      "https://csk-textiles-yq5o.vercel.app",
-    ],
+    origin: ["http://localhost:8080", "https://csk-textiles-yq5o.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -39,6 +37,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/customize", customizeRoutes);
 
 // Static files for images
 const __dirname = path.resolve();
